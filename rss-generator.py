@@ -5,6 +5,9 @@ from bs4 import BeautifulSoup
 import sys
 import json
 
+query = ''
+file_name = 'init' 
+
 def generateFeed(urls):
     ''' Generates RSS feel from the given urls '''
     fg = FeedGenerator()
@@ -15,10 +18,11 @@ def generateFeed(urls):
         fe = fg.add_entry()
         fe.title(url[0])
         fe.link({'href': url[1], 'rel':'alternate'})
-    print fg.rss_str(pretty=True)
+    ##print fg.rss_str(pretty=True)
     ##Write to file
-    ##file_name = query + 'xml'
-    ##fg.rss_file(file_name)
+    file_name = query + ".xml"
+    fg.rss_file(file_name)
+    return file_name
 
 def google_search(query):
     ''' Search google for the query and return set of urls
@@ -53,9 +57,11 @@ def read_in():
     return json.loads(lines[0])
 
 def main():
+    global query
     query = read_in()
+    ##query = "harambe"
     urls = google_search(query)
-    generateFeed(urls)
+    print generateFeed(urls)
 
 if __name__ == "__main__":
     main()
