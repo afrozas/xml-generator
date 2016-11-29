@@ -1,0 +1,94 @@
+<!doctype html>
+<html>
+
+<head>
+    <title id="title">server query</title>
+    <!--<link rel="stylesheet" href="bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap-theme.css">
+    <script src="bootstrap/js/bootstrap.js"></script>-->
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <script src="https://code.jquery.com/jquery-3.1.1.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!--link rel="icon" href="/favicon.ico"-->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="/socket.io/socket.io.js"></script>
+</head>
+
+<body>
+    <div id="page">
+        <div id="searchArea" class="row">
+            <div class="col-md-4" class='louu'></div>
+            <div class="col-md-4" class='louu'>
+                <form id="searchForm">
+                    <div class="form-group">
+                        <br/><input class="form-control" id="query" placeholder="" /><br/>
+                        <div class="col-md-4" class='louu'></div>
+                        <div class="col-md-1" class='louu'></div>
+                        <div class="col-md-4">
+                            <input id="search" type="submit" class="btn btn-primary" value="Get RSS Data" />
+                        </div>
+                    </div>
+                </form>
+                <div id="searchResult">
+                    <br/><span id="result"></span><br/>
+                    <div class="col-md-4" class='louu'></div>
+                    <div class="col-md-1" class='louu'></div>
+                    <div class="col-md-4">
+                        <input id="newq" type="submit" class="btn btn-primary" value="Search another!" />
+                    </div>
+                </div>
+            </div>
+        </div>        
+    </div>
+    <script>
+        var socket = io();
+        var $searchForm = $('#searchForm');
+        var $search = $('#search');
+        var $query = $('#query');
+        var $searchResult = $('#searchResult');
+        var $newq = $('#newq');
+        var $result = $('#result');
+        var $page = $('#page');
+
+        $newq.click(function(e) {
+            e.preventDefault();
+            $searchResult.hide();
+            $searchForm.show();
+        });
+
+        $( document ).ready(function() {
+            $searchResult.hide();
+        });
+
+        socket.on('success', function(data) {
+            $searchResult.show();
+            $searchForm.hide();
+            var filename = '/'+ data + '.xml';
+            console.log(filename);
+            $result.html('<strong>'+data+'.xml</strong>');
+            //load( filename );
+        });
+
+        socket.on('exists', function() {
+            $searchResult.show();
+            $searchForm.hide();
+            var filename = '/'+ data + '.xml';
+            console.log(filename);
+            $result.html('<strong> already queried ::  '+data+'</strong>');
+            //load( filename );
+        });
+
+        $searchForm.submit(function(e) {
+            e.preventDefault();
+            socket.emit('query', $query.val(), function(data) {
+                if (data) {
+                    $searchForm.hide();
+                }
+            });
+            $query.val('');
+            //return false;
+        });
+    </script>
+</body>
+
+</html>
