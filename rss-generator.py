@@ -22,7 +22,7 @@ def generateFeed(urls):
     ##Write to file
     file_name = os.path.dirname(os.path.abspath(__file__)) + '/data/' + query + ".xml"
     fg.rss_file(file_name)
-    
+  
 
 def google_search(query):
     ''' Search google for the query and return set of urls
@@ -62,6 +62,5 @@ def main():
     ##query = "harambe"
     urls = google_search(query)
     generateFeed(urls)
-
 if __name__ == "__main__":
     main()
