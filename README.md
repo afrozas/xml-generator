@@ -24,9 +24,9 @@ $ pip install -r requirements.txt
 ```
 
 # Running
-To start the nodejs server: 
+To run the query server: 
 ```
-$ node server.js
+$ npm start
 ```
 The search is prompted then.
 ```
