@@ -1,5 +1,5 @@
-# query-server
-> Query Server that stores a query string on a server.
+# xml-generator
+> Initial implementation of query-server for FOSSASIA .
 
 This mini-tool can be used to process a query string. This string calls the Google search result scraper at [searss](https://github.com/fossasia/searss) and the output from the scraper is written to a file, named with the query string as file name.
 
